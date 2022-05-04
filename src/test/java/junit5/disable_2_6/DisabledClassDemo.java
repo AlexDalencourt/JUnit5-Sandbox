@@ -1,4 +1,4 @@
-package junit5.disable;
+package junit5.disable_2_6;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

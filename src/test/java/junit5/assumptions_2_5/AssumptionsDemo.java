@@ -1,4 +1,4 @@
-package junit5.assumptions;
+package junit5.assumptions_2_5;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;

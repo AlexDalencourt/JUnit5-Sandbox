@@ -1,4 +1,4 @@
-package junit5.diplayNames;
+package junit5.diplayNames_2_3;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;

@@ -1,4 +1,4 @@
-package junit5.assertions;
+package junit5.assertions_2_4;
 import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofMinutes;
 import static org.junit.jupiter.api.Assertions.assertAll;

@@ -83,7 +83,7 @@ _Look on demo junit5.displayNames.*_
 Retreive all statics methods of JUnit4 and more, other specific to be used with Java 8 lambdas.
 Use methods from `org.junit.jupiter.api.Assertions`
 
-_Look on demo junit5.assertions.AssertionDemo_
+_Look on demo junit5.assertions_2_4.AssertionDemo_
 
 There is new other assertions to support Kotlin framework.
 
@@ -101,8 +101,8 @@ The JUnit Team do not recommand to not explain wy disabled tests
 ### Conditional test execution (2.7)
 
 ExecutionCondition extension provide all you need to programmatically execute tests with conditional. The most common
-implementation is DisabledCondition with the `@Disabled` annotation. Look on the package `org.junit.jupiter.api.condition`
-to se a list of other conditions available.
+implementation is DisabledCondition with the `@Disabled` annotation. Look on the package 
+`org.junit.jupiter.api.condition` to se a list of other conditions available.
 
 #### Operating System condition
 
@@ -280,3 +280,89 @@ class ExternalCondition {
 ### Tagging and Filtering (2.8)
 
 The `@Tag("name")` would be used to filtering test execution results.
+
+### Test execution Order (2.9)
+
+#### Method Order (2.9.1)
+
+```java
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+@TestMethodOrder(OrderAnnotation.class)
+class OrderedTestsDemo {
+
+    @Test
+    @Order(1)
+    void nullValues() {
+        // perform assertions against null values
+    }
+
+    @Test
+    @Order(2)
+    void emptyValues() {
+        // perform assertions against empty values
+    }
+
+    @Test
+    @Order(3)
+    void validValues() {
+        // perform assertions against valid values
+    }
+
+}
+```
+Use MethodOrderer implementation
+Use properties param : 
+```properties
+junit.jupiter.testmethod.order.default = org.junit.jupiter.api.MethodOrderer$OrderAnnotation
+```
+
+#### Class Order (2.9.2)
+
+Care of parallel execution. Use ClassOrderer implementation.
+```properties
+junit.jupiter.testclass.order.default = org.junit.jupiter.api.ClassOrderer$OrderAnnotation
+```
+
+### Test instance Lifecycle (2.10)
+
+By default, create a new instance of each test class for each test method (PER_METHOD).
+If you want just one instance for all tests methods use `@TestInstance(Lifecycle.PER_CLASS)`
+
+Using PER_CLASS mode have some benefit like use `@BeforeAll @AfterAll` as a non static method and could be apply on 
+`@Nested` classes.
+
+If it is wanted to change the mode by default and not just with an annotation use this property 
+`junit.jupiter.testinstance.lifecycle.default=per_class`
+
+Care to per_class mode, tests results are unpredictable and fragile. The result could change between build tool and IDE
+for example.
+
+### Nested Tests (2.11)
+
+`@Nested` is used to 'regrouping tests', facilitate hierarchical test structure. We put this annotation on test 
+subclasses
+Look the example.
+Only non static classes
+
+### Dependency injection for Constructors and Methods (2.12)
+
+On JUnit4 test constructor or methods with parameters to dependencies injection was not allowed. The Junit5 runner 
+allow it.
+* `TestInfo` -> give you some information about the test class / methods. The `TestInfoParameterResolver` will inject
+the instance of TestInfo needed.
+* `RepetitionInfo` -> give you information about annotated `@RepeatedTest @BeforeEach @AfterEach`. The 
+`RepetitionInfoParameterResolver` will supply the instance of RepetitionInfo. He return information about current and 
+total repetitions
+* `TestReporter` -> give you some information about constructors and methods. The `TestReporterParameterResolver` will 
+provide you the instance of TestReporter. Give you additional reporting data. This information will be consumed by your 
+system to display some information. You can decide to push more information to display at the test end. 
+Look the example.
+
+Other resolver parameters should be specified with the appropriate extensions. Look on RandomExtension example.
+For more extensions look _MockitoExtension_ and _SpringExtension_
+
+### Test Interfaces and Default Methods (2.13)
