@@ -366,3 +366,17 @@ Other resolver parameters should be specified with the appropriate extensions. L
 For more extensions look _MockitoExtension_ and _SpringExtension_
 
 ### Test Interfaces and Default Methods (2.13)
+
+Many of JUnit5 tests annotations are allowed on interfaces class and default methods interface like :
+see code examples
+
+`@ExtendWith @Tag` could be add on interface too. They will be automatically applied to implementation classes.
+
+### Repeated tests (2.14)
+
+`@RepeatedTest(10)` will mark a method as a test but repeated 'n' times (here 10). The lifecycle will be the same as
+classic test method. The execution name could be customized.
+
+look example;
+
+### ParameterizedTest (2.15)
